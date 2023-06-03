@@ -1,4 +1,13 @@
 <!DOCTYPE html>
+<!-- 
+    WORDLE PUZZLE SOLVER
+    Type in the letters from your puzzle in the appropriate areas and hit UPDATE.
+    This code will give you possible 5-letter words which match your criteria.
+
+    Written by  : tuubesox
+    Pathname    : https://tuubesox.github.io/wordle_solver/wordle_solver.htm
+    Last Update : 6/2/2023
+-->
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -2079,8 +2088,8 @@ function getMatchList() {
     // Checking for exact correct matches
     // Checks that all "correct" characters are found in exact spots in the word
     for (let kk = 0; kk < cccc.length; kk++) {
-      digg = wordList[ii].charAt(kk);
-      bigg = cccc.charAt(kk);
+      digg = wordList[ii].charAt(kk).toLowerCase();
+      bigg = cccc.charAt(kk).toLowerCase();
       if ((bigg != '.') && (digg != bigg)) {
         pass = 0;
       }
@@ -2088,7 +2097,7 @@ function getMatchList() {
     // Checking for present matches
     // Checks that all "present" characters can be found in the word
     for (let kk = 0; kk < pppp.length; kk++) {
-      bigg = pppp.charAt(kk);
+      bigg = pppp.charAt(kk).toLowerCase();
       if (wordList[ii].indexOf(bigg) < 0) {
         pass = 0;
       }
@@ -2096,7 +2105,7 @@ function getMatchList() {
     // Checking for missing characters
     // Checks that all "missing" characters are not found in the word
     for (let kk = 0; kk < mmmm.length; kk++) {
-      bigg = mmmm.charAt(kk);
+      bigg = mmmm.charAt(kk).toLowerCase();
       if (wordList[ii].indexOf(bigg) > -1) {
         pass = 0;
       }
