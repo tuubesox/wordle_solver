@@ -66,6 +66,12 @@
           font-weight: bold;
           font-family: monospace;
       }
+      .square { 
+          background: #000000;
+          height: 20px;
+          width:  20px;
+          border: 1px solid black;
+      }
     
     </style>
 
@@ -102,17 +108,61 @@
 
 <form>
   <p>
-    <!-- // Besides 'checked' can also use required' or 'disabled'   -->
-    <label for="correct">CORRECT PLACE -- enter periods (.) for wildcards:</label><br>
-    <input type="text" id="correct" pattern="[a-zA-Z.]{5,5}" class="cb" name="ccorrect" placeholder="....." minlength="5" maxlength="5" size="10"/><br><br>
+    <label for="entry1">FIRST ENTRY:</label><br>
+    <input type="text" id="entry1" pattern="[a-zA-Z.]{5,5}" class="cb" name="eentry1" placeholder="....." minlength="5" maxlength="5" size="12"/><br>
+    <table>
+      <tr>
+        <td> <div class='square' id="squareColor0" onclick="colorChoose(0)"> </div> </td>
+        <td> <div class='square' id="squareColor1" onclick="colorChoose(1)"> </div> </td>
+        <td> <div class='square' id="squareColor2" onclick="colorChoose(2)"> </div> </td>
+        <td> <div class='square' id="squareColor3" onclick="colorChoose(3)"> </div> </td>
+        <td> <div class='square' id="squareColor4" onclick="colorChoose(4)"> </div> </td>
+      </tr>
+    </table>
+    <br><br>
 
-    <label for="present">PRESENT -- enter other letters which are in the word:</label><br>
-    <input type="text" id="present" pattern="[a-zA-Z]" class="cb" name="ppresent" size="10"/><br><br>
+    <label for="entry2">SECOND ENTRY:</label><br>
+    <input type="text" id="entry2" pattern="[a-zA-Z.]{5,5}" class="cb" name="eentry2" placeholder="....." minlength="5" maxlength="5" size="12"/><br>
+    <table>
+      <tr>
+        <td> <div class='square' id="squareColor5" onclick="colorChoose(5)"> </div> </td>
+        <td> <div class='square' id="squareColor6" onclick="colorChoose(6)"> </div> </td>
+        <td> <div class='square' id="squareColor7" onclick="colorChoose(7)"> </div> </td>
+        <td> <div class='square' id="squareColor8" onclick="colorChoose(8)"> </div> </td>
+        <td> <div class='square' id="squareColor9" onclick="colorChoose(9)"> </div> </td>
+      </tr>
+    </table>
+    <br><br>
 
-    <label for="missing">MISSING -- enter letters which are not in the word:</label><br>
-    <input type="text" id="missing" pattern="[a-zA-Z]" class="cb" name="mmissing" size="10"/><br><br>
+    <label for="entry3">THIRD ENTRY:</label><br>
+    <input type="text" id="entry3" pattern="[a-zA-Z.]{5,5}" class="cb" name="eentry3" placeholder="....." minlength="5" maxlength="5" size="12"/><br>
+    <table>
+      <tr>
+        <td> <div class='square' id="squareColor10" onclick="colorChoose(10)"> </div> </td>
+        <td> <div class='square' id="squareColor11" onclick="colorChoose(11)"> </div> </td>
+        <td> <div class='square' id="squareColor12" onclick="colorChoose(12)"> </div> </td>
+        <td> <div class='square' id="squareColor13" onclick="colorChoose(13)"> </div> </td>
+        <td> <div class='square' id="squareColor14" onclick="colorChoose(14)"> </div> </td>
+      </tr>
+    </table>
+    <br><br>
+
+    <label for="entry4">FOURTH ENTRY:</label><br>
+    <input type="text" id="entry4" pattern="[a-zA-Z.]{5,5}" class="cb" name="eentry4" placeholder="....." minlength="5" maxlength="5" size="12"/><br>
+    <table>
+      <tr>
+        <td> <div class='square' id="squareColor15" onclick="colorChoose(15)"> </div> </td>
+        <td> <div class='square' id="squareColor16" onclick="colorChoose(16)"> </div> </td>
+        <td> <div class='square' id="squareColor17" onclick="colorChoose(17)"> </div> </td>
+        <td> <div class='square' id="squareColor18" onclick="colorChoose(18)"> </div> </td>
+        <td> <div class='square' id="squareColor19" onclick="colorChoose(19)"> </div> </td>
+      </tr>
+    </table>
+    <br><br>
   </p>
 </form>
+<p></p>
+<p></p>
 
 <p></p>
 <p></p>
@@ -2044,73 +2094,83 @@ var wordList = [
   "zoque", "zoril", "zoris", "zorro", "zosma", "zowie", "zucco", "zudda", 
   "zulus", "zunis", "zygal", "zygon", "zymes", "zymic", "zymin" ]; 
 
-function getCorrect() {
-  var corr = document.getElementsByName('ccorrect');
+// ColorIndex will hold the color code of the words
+// At first it will be reset to black (undetermined)
+// The other codes are:
+//   gray = unused
+//   yellow = used but in wrong location
+//   green = letter is in exact location
+let colorIndex = [0,0,0,0,0,   0,0,0,0,0,   0,0,0,0,0,  0,0,0,0,0];
+
+function reset_colorIndex() {
+  for (let ii = 0; ii < colorIndex.length; ii++) {
+    colorIndex[ii] = 0;
+  }
+}
+
+function colorChoose(myColor) {
+  var colors = ["black","gray","yellow","green"];
+  if (colorIndex[myColor] >= colors.length-1) {
+    colorIndex[myColor] = 1;
+  } else {
+    colorIndex[myColor] = (colorIndex[myColor] + 1);
+  }
+  myID = "squareColor" + myColor;
+  document.getElementById(myID).style.backgroundColor = colors[colorIndex[myColor]];
+}
+
+function getEntry(num) {
+  // Seems like a concatenation of the entry number (i.e. "eentry" + num) does not work.
+  // So I am doing it explicity.
+  var corr = document.getElementsByName("eentry" + num);
   var myCorr = "";
-  // var randServ = "";
-  // var servCount;
-  // var servList = [];
-  // for(var ii = 0; ii < serv.length; ii++) {
-  //   if (serv[ii].checked) {
-  //     servCount = servList.length + 1;
-  //     servList.push(serv[ii].value);
-  //   }
-  // }
-  // randServ = servList[ Math.floor(Math.random() * servCount) ];
   myCorr = corr[0].value;
   return myCorr;
 }
 
-function getPresent() {
-  var pres = document.getElementsByName('ppresent');
-  var myPres = "";
-  myPres = pres[0].value;
-  return myPres;
-}
-
-function getMissing() {
-  var miss = document.getElementsByName('mmissing');
-  var myMiss = "";
-  myMiss = miss[0].value;
-  return myMiss;
+function summup(val) {
+  // Sum up the colorIndex entries in the VAL word
+  var total = 0;
+  for (let mm = 0; mm < 5; mm++) {
+    total = total + colorIndex[val*4+mm];
+  }
+  return total;
 }
 
 function getMatchList() {
-  var cccc = getCorrect();
-  var pppp = getPresent();
-  var mmmm = getMissing();
   var myList = [];
 
   for (let ii = 0; ii < wordList.length; ii++) {
 
     pass = 1;
 
-    // Checking for exact correct matches
-    // Checks that all "correct" characters are found in exact spots in the word
-    for (let kk = 0; kk < cccc.length; kk++) {
-      digg = wordList[ii].charAt(kk).toLowerCase();
-      bigg = cccc.charAt(kk).toLowerCase();
-      if ((bigg != '.') && (digg != bigg)) {
-        pass = 0;
-      }
-    }
-    // Checking for present matches
-    // Checks that all "present" characters can be found in the word
-    for (let kk = 0; kk < pppp.length; kk++) {
-      bigg = pppp.charAt(kk).toLowerCase();
-      if (wordList[ii].indexOf(bigg) < 0) {
-        pass = 0;
-      }
-    }
-    // Checking for missing characters
-    // Checks that all "missing" characters are not found in the word
-    for (let kk = 0; kk < mmmm.length; kk++) {
-      bigg = mmmm.charAt(kk).toLowerCase();
-      if (wordList[ii].indexOf(bigg) > -1) {
-        pass = 0;
-      }
-    }
+    for (let jj = 0; jj < 4; jj++) {  // 4 is the number of Entries
 
+      cccc = getEntry(jj+1);  // Get the entered value; entries start counting from 1.
+  
+      // Check if entryX has non-zero colorIndex values
+      if (summup(jj) != 0) {
+        for (let kk = 0; kk < 5; kk++) {   // 5 is the word length
+          if (colorIndex[jj*5+kk] == 3) {          // 3 = Green, Letter must be correct in exact location in the word
+            digg = wordList[ii].charAt(kk).toLowerCase();
+            bigg = cccc.charAt(kk).toLowerCase();
+            if ((bigg != '.') && (digg != bigg)) {
+              pass = 0;
+            }
+          } else if (colorIndex[jj*5+kk] == 2) {   // 2 = Yellow, Letter must be present in the word
+            bigg = cccc.charAt(kk).toLowerCase();
+            if (wordList[ii].indexOf(bigg) < 0) {
+              pass = 0;
+            }
+          } else if (colorIndex[jj*5+kk] == 1) {   // 1 = Gray, Letter must be missing from the word
+            bigg = cccc.charAt(kk).toLowerCase();
+            if (wordList[ii].indexOf(bigg) > -1) {
+              pass = 0;
+            }
+          }
+        }
+      }
+    } 
 
     if (pass == 1) {
       myList.push(" " + wordList[ii])
@@ -2122,10 +2182,12 @@ function getMatchList() {
 </script>
 
 <button class="cb"
-    onclick='document.getElementById("my_entries").innerHTML = getCorrect() + "  " + getPresent() + "  " + getMissing();
+    onclick='document.getElementById("my_entries").innerHTML = getEntry(1) + "  " + getEntry(2) + "  " + getEntry(3) + " " + getEntry(4);
              document.getElementById("my_words"  ).innerHTML = getMatchList();'
   >Update</button>
-</p>
+<button class="cb"
+    onclick='reset_colorIndex();location.reload()'
+  >Reset</button>
 
 <p></p>
 <p></p>
