@@ -6,7 +6,8 @@
 
     Written by  : tuubesox
     Pathname    : https://tuubesox.github.io/wordle_solver/wordle_solver.htm
-    Last Update : 6/2/2023
+    Created     : 06/02/2023
+    Last Update : 09/27/2023
 -->
 <html lang="en">
 <head>
@@ -2151,19 +2152,17 @@ function getMatchList() {
       // Check if entryX has non-zero colorIndex values
       if (summup(jj) != 0) {
         for (let kk = 0; kk < 5; kk++) {   // 5 is the word length
+          digg = wordList[ii].charAt(kk).toLowerCase();
+          bigg =         cccc.charAt(kk).toLowerCase();
           if (colorIndex[jj*5+kk] == 3) {          // 3 = Green, Letter must be correct in exact location in the word
-            digg = wordList[ii].charAt(kk).toLowerCase();
-            bigg = cccc.charAt(kk).toLowerCase();
             if ((bigg != '.') && (digg != bigg)) {
               pass = 0;
             }
           } else if (colorIndex[jj*5+kk] == 2) {   // 2 = Yellow, Letter must be present in the word
-            bigg = cccc.charAt(kk).toLowerCase();
-            if (wordList[ii].indexOf(bigg) < 0) {
+            if ((wordList[ii].indexOf(bigg) < 0) || (digg == bigg)) {
               pass = 0;
             }
           } else if (colorIndex[jj*5+kk] == 1) {   // 1 = Gray, Letter must be missing from the word
-            bigg = cccc.charAt(kk).toLowerCase();
             if (wordList[ii].indexOf(bigg) > -1) {
               pass = 0;
             }
